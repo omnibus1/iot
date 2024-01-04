@@ -20,7 +20,7 @@ public class ReadingRepository {
     }
 
     public List<Reading> getReadingsFromDevice(Device device){
-        return jdbcTemplate.query("select * from readings where device_id = ? order by date_time",
+        return jdbcTemplate.query("select * from readings where device_id = ? order by date_time DESC",
                 BeanPropertyRowMapper.newInstance(Reading.class), device.getDevice_id());
     }
     public boolean readingAlreadyExists(Reading reading){
@@ -37,6 +37,12 @@ public class ReadingRepository {
         jdbcTemplate.update("INSERT INTO readings(device_id, reading, date_time) values (?,?,?)",
                 reading.getDevice().getDevice_id(), reading.getReading(), reading.getDateTime());
     }
+
+//    public Reading getDeviceLatestReading(Device device){
+//        return (Reading) jdbcTemplate.query("SELECT reading_id, device_id, reading, date_time FROM [dbo].[readings] " +
+//                        "where device_id = ? order by date_time DESC",
+//                BeanPropertyRowMapper.newInstance(Reading.class));
+//    }
     public void saveReadingIfNotSavedAlready(Reading reading){
         saveReading(reading);
 //        if (!this.readingAlreadyExists(reading)){

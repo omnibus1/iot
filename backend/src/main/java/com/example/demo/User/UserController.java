@@ -23,7 +23,7 @@ public class UserController {
         if(userRepository.checkIfUsernameTaken(user.getUsername())){
             map.put("explanation", String.format("username '%s' is already taken", user.getUsername()));
             map.put("status", "failed");
-            return new ResponseEntity<>(map, HttpStatus.OK);
+            return new ResponseEntity<>(map, HttpStatus.CONFLICT);
         }
 
         userRepository.saveUser(user);

@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, TextInput} from "react-native";
-import Logo from "../../../assets/favicon.png";
 
-const CustomInput = ({value, setValue, placeholder, loginFailed}) => {
+const CustomInput = ({value, setValue, placeholder, operationFailed}) => {
     return(
-        <View style={loginFailed? styles.loginFailed:styles.login}>
+        <View style={operationFailed? styles.operationFailed:styles.login}>
             <TextInput
             placeholder={placeholder}
             style={styles.input}
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
         paddingVertical:5,
     },
 
-    loginFailed:{
+    operationFailed:{
         backgroundColor:'white',
         width:'100%',
 
@@ -43,7 +42,6 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         paddingVertical:5,
     },
-
 
     input:{
 
