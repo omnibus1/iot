@@ -15,6 +15,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 
+
+/* This EventHandler class is responsible for handling events coming from the Azure IOT Hub, it saves the incoming
+* readings in the database */
 @Service
 public class EventHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHandler.class);
@@ -42,12 +45,12 @@ public class EventHandler {
         System.out.println("---------");
         HashMap<String, String> map = new Gson().fromJson(eventData.substring(1,eventData.length()-1), HashMap.class);
 
-        Device device = deviceRepository.getBySn(map.get("sn"));
+        Device device = deviceRepository.getDeviceBySn(map.get("sn"));
         if(device==null){
             System.out.println("not found serial number: "+ map.get("sn"));
         }
         Reading reading = new Reading(null, device, map.get("value"), postDateTime);
-        readingRepository.saveReadingIfNotSavedAlready(reading);
+        readingRepository.saveReading(reading);
 
     }
 }
