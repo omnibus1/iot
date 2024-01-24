@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".connecting.AddDevice">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your WiFi SSID and password. This data will be used by the device to connect to the internet. After that connect to the device network, once connected click the connect to device button."
+        android:textSize="15dp"
+        android:textAlignment="center"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        />
+
+    <EditText
+        android:id="@+id/editSSID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="250dp"
+        android:inputType="text"
+        android:layout_marginStart="120dp"
+        android:hint="SSID"/>
+
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:inputType="text"
+        android:layout_marginStart="120dp"
+        android:hint="PASSWORD"/>
+
+    <Button
+        android:id="@+id/change_network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change network"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="360dp"
+        />
+    <Button
+        android:id="@+id/connect_to_device"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect to device"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="410dp"
+        />
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Error, could not connect to device, check the network and try again"
+        android:textColor="@color/design_default_color_error"
+        android:layout_marginTop="470dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:textAlignment="center"
+        android:visibility="invisible"/>
+</RelativeLayout>
