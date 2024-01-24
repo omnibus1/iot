@@ -1,9 +1,6 @@
 package com.example.demo.api;
-
-
 import com.example.demo.Device.Device;
 import com.example.demo.Device.DeviceRepository;
-import com.example.demo.Device.UserDevices;
 import com.example.demo.Reading.Reading;
 import com.example.demo.Reading.ReadingRepository;
 import com.example.demo.User.User;
@@ -16,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.*;
+
+
+/* This is a rest controller class for the readings */
 
 @RestController
 @RequestMapping("/api")
@@ -28,11 +27,9 @@ public class ReadingApi {
     DeviceRepository deviceRepository;
     @Autowired
     ReadingRepository readingRepository;
-    @GetMapping("test")
-    public String test(){
-        return "Test";
-    }
 
+    /* GET /readings?username */
+    /* Returns a list of objects that contains: device_id:int, device_sn:string, readings:List<reading:string, dateTime:string> */
     @GetMapping(path = "/readings", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getUserReadings(@RequestParam String username){
         User user = userRepository.getByUsername(username);
@@ -48,9 +45,10 @@ public class ReadingApi {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /* GET /devices_info?username */
+    /* Returns a list of objects that contains: device_id:int, device_sn:string, last_reading:string. last_reading_datetime:string */
     @GetMapping(path = "/devices_info", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getUserDevicesInfo(@RequestParam String username){
-        /* some comment */
         User user = userRepository.getByUsername(username);
         List<Device> userDevices = deviceRepository.getUserDevices(user);
         List<Object> response = new ArrayList<>();
@@ -66,11 +64,12 @@ public class ReadingApi {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
+    /* GET /device_readings?serial_number */
+    /* Returns a list of readings from a device in a such form: reading:string, dateTime:string */
     @GetMapping(path = "/device_readings", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getReadingsFromDevice(@RequestParam String serial_number){
 
-        Device device = deviceRepository.getBySn(serial_number);
+        Device device = deviceRepository.getDeviceBySn(serial_number);
         if(device == null){
             return new ResponseEntity<>("Something went wrong", HttpStatus.NOT_FOUND);
         }
