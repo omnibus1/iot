@@ -44,7 +44,9 @@ public class DeviceRepository {
         }
         User user = userRepository.getByUsername(username);
         Device device = getDeviceBySn(serialNumber);
-        addDeviceToUser(device, user);
+        if(!checkIfUserAlreadyHasDeviceBinded(user, device)){
+            addDeviceToUser(device, user);
+        }
 
         return 1;
     }
@@ -59,6 +61,17 @@ public class DeviceRepository {
         jdbcTemplate.update("INSERT INTO user_devices(device_id, user_id) VALUES(?,?)",
                 device.getDevice_id(), user.getUser_id());
         return 1;
+    }
+
+    public boolean checkIfUserAlreadyHasDeviceBinded(User user, Device device){
+        try{
+            jdbcTemplate.queryForObject("SELECT id, device_id, user_id FROM [dbo].[user_devices] WHERE user_id = ? AND device_id = ?",
+                    BeanPropertyRowMapper.newInstance(UserDevices.class), user.getUser_id(), device.getDevice_id());
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
 }

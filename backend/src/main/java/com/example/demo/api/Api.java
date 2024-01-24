@@ -9,18 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 
-/* This is a rest controller class for the readings */
+/* This is a rest controller class for an API, to perform all needed tasks */
+/* */
 
 @RestController
 @RequestMapping("/api")
-public class ReadingApi {
+public class Api {
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -75,5 +73,52 @@ public class ReadingApi {
         }
         List<Reading> deviceReadings = readingRepository.getReadingsFromDevice(device);
         return new ResponseEntity<>(deviceReadings, HttpStatus.OK);
+    }
+
+    /* POST /add_device  body:username, serial_number*/
+    /* A endpoint to add a device to user devices */
+    @ResponseBody
+    @PostMapping( path = "/add_device", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> addDevice(@RequestBody Map<String,String> data){
+        String username = data.get("username");
+        String serialNumber = data.get("serial_number");
+        deviceRepository.bindDeviceToUser(serialNumber, username);
+        List<String> response = new ArrayList<>();
+        response.add(username);
+        response.add(serialNumber);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+
+    /* POST /reguster body:username:string, password:string */
+    /* A endpoint for registering users, checks if the username is not already taken, and then saves the user */
+    @ResponseBody
+    @PostMapping( path = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> registerUser(@RequestBody User user){
+        Map<String, String> map = new HashMap();
+        if(userRepository.checkIfUsernameTaken(user.getUsername())){
+            map.put("explanation", String.format("username '%s' is already taken", user.getUsername()));
+            map.put("status", "failed");
+            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        }
+
+        userRepository.saveUser(user);
+        map.put("status", "success");
+        map.put("explanation", String.format("created user '%s'", user.getUsername()));
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    /* POST /login body:username:string, password:string */
+    /* A login endpoint for users, checks if the password and username match */
+    @ResponseBody
+    @PostMapping( path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> loginUser(@RequestBody User user){
+        Map<String, String> map = new HashMap();
+        if(userRepository.checkIfUserExistsAndPasswordsMatch(user)){
+            map.put("status", "success");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
+        map.put("status", "failed");
+        return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
     }
 }
