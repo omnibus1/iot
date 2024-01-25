@@ -13,9 +13,11 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.iot.HomeScreen
 import com.example.iot.R
 import java.io.OutputStreamWriter
 import java.net.Socket
+import java.net.SocketException
 
 
 class AddDevice : AppCompatActivity() {
@@ -82,6 +84,9 @@ class AddDevice : AppCompatActivity() {
             } finally {
                 socket.close();
             }
+        }catch(e: SocketException){
+            val intent = Intent(this@AddDevice, ChangeBackWiFi::class.java)
+            startActivity(intent);
         }
         catch (e:Exception){
             errorMessage.visibility = View.VISIBLE

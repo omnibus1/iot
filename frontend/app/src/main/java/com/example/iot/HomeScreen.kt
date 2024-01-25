@@ -61,10 +61,6 @@ class HomeScreen : AppCompatActivity() {
         apiService = ApiService()
 
 
-        var r:ReadingBasic = ReadingBasic(123,"huj","hjuj2","2115")
-        data.add(r);
-        var r2:ReadingBasic = ReadingBasic(123,"huj2115","hjuj2adasd","2115123")
-        data.add(r2)
         runOnUiThread{this.setUpApi()}
 
 
