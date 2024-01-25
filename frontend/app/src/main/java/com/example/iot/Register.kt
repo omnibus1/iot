@@ -44,7 +44,7 @@ class Register : AppCompatActivity() {
             body.put("username", username);
             body.put("password", password);
 
-            apiService.makePostRequest("http://10.0.2.2:8000/users/register", body.toString(), object:
+            apiService.makePostRequest("http://10.0.2.2:8000/api/register", body.toString(), object:
                 Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     errorTag.text = "Internal Error";

@@ -35,10 +35,15 @@ class Login : AppCompatActivity() {
 
 
         loginButton.setOnClickListener{
+            val username = editUsername.text.toString();
+            val password = editPassword.text.toString();
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            editor.clear().commit()
+            editor.putString("username", username);
+            editor.commit()
             val intent = Intent(this@Login, HomeScreen::class.java)
             startActivity(intent);
-//            val username = editUsername.text.toString();
-//            val password = editPassword.text.toString();
+
 //
 //            var body =  JSONObject();
 //            body.put("username", username);
