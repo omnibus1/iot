@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 // Wifi
-#define IOT_CONFIG_WIFI_SSID "Bodzio"
+#define IOT_CONFIG_WIFI_SSID "pawel2115"
 #define IOT_CONFIG_WIFI_PASSWORD "dupa1111"
 
 // Enable macro IOT_CONFIG_USE_X509_CERT to use an x509 certificate to authenticate the IoT device.

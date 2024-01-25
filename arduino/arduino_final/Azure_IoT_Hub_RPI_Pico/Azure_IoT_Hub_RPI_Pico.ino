@@ -89,6 +89,26 @@ IPAddress gateway(192,168,4,9);
 IPAddress subnet(255,255,255,0);
 WiFiServer server(8000);
 
+String get_wifi_status(int status){
+  switch(status){
+    case WL_IDLE_STATUS:
+      return "WL_IDLE_STATUS";
+    case WL_SCAN_COMPLETED:
+      return "WL_SCAN_COMPLETED";
+    case WL_NO_SSID_AVAIL:
+      return "WL_NO_SSID_AVAIL";
+    case WL_CONNECT_FAILED:
+      return "WL_CONNECT_FAILED";
+    case WL_CONNECTION_LOST:
+      return "WL_CONNECTION_LOST";
+    case WL_CONNECTED:
+      return "WL_CONNECTED";
+    case WL_DISCONNECTED:
+      return "WL_DISCONNECTED";
+  }
+  return "";
+}
+
 static void connectToWiFi()
 {
   bool staticConnect = false;
@@ -96,18 +116,20 @@ static void connectToWiFi()
   String receivedPassword;
   if(staticConnect)
   {
-    receivedSSID = "Bodzio";
-    receivedPassword = "2137dupa";
+    receivedSSID = "UPC8320891";
+    receivedPassword = "mjk4cdhpQcQt";
     Serial.begin(115200);
     Serial.println();
     Serial.print("Connecting to WIFI SSID ");
-    Serial.println(ssid);
+    Serial.println(receivedSSID);
   }else{
   Serial.begin(115200);
 
   // Ustawienie trybu Access Point
-  WiFi.softAPConfig(local_IP, local_IP, subnet);
-  WiFi.softAP(device_id, password);
+  WiFi.mode(WIFI_AP);
+  //WiFi.softAPConfig(local_IP, local_IP, subnet);
+  WiFi.config(local_IP, local_IP, subnet);
+  WiFi.softAP(ssid, password);
   Serial.println("Access Point started: " + WiFi.softAPIP());
   server.begin();
 
@@ -155,45 +177,21 @@ static void connectToWiFi()
         }
       }
     }
-
-/*
-    if (Serial.available() > 0) {
-      // Odczytanie SSID
-      while (Serial.available() > 0) {
-        char c = Serial.read();
-        if (c == ',') {
-          break; // Koniec danych
-        }
-        receivedSSID += c; // Dodaj odczytaną literę do SSID
-      }
-
-      delay(100);
-
-      // Odczytanie hasła
-      while (Serial.available() > 0) {
-        char c = Serial.read();
-        if (c == '\n') {
-          break; // Koniec danych
-        }
-        receivedPassword += c; // Dodaj odczytaną literę do hasła
-      }
-      Serial.println("Data received. Configuring WiFi...");
-      WiFi.softAPdisconnect(true);
-      Serial.println("Access Point mode turned off.");
-      break;
-    }*/
     }
   }
   delay(200);
   Serial.println("SSID: \"" + receivedSSID + "\" PASSWORD: \"" + receivedPassword + "\"");
   WiFi.disconnect(true);
+  WiFi.mode(WIFI_OFF);
+  delay(1000);
   WiFi.mode(WIFI_STA);
   WiFi.config(IPAddress(0,0,0,0), IPAddress(0,0,0,0), IPAddress(0,0,0,0));
   while (WiFi.status() != WL_CONNECTED)
   {
     WiFi.begin(receivedSSID.c_str(), receivedPassword.c_str());
     delay(500);
-    Serial.print(".");
+    Serial.println(get_wifi_status(WiFi.status()));
+    delay(10000);
   }
 
   Serial.print("WiFi connected, IP address: ");
@@ -436,7 +434,7 @@ static void sendTelemetry()
   digitalWrite(LED_PIN, LOW);
 }
 
-void enableAutoSend()
+bool enableAutoSend()
 {
   Serial.println("START");
   while (Serial1.available())
@@ -454,6 +452,9 @@ void enableAutoSend()
     Serial.print(" ");
     Serial.print(receive[1], HEX);
     Serial.println("");
+    if(receive[0] == 0x0 && receive[1] == 0x0)
+      return false;
+    return true;
 }
 
 
@@ -462,7 +463,11 @@ void setupSensor()
   Serial1.begin(9600);
   while(!Serial1)
     ;
-  enableAutoSend();
+  /*bool connected = false;
+  while(!connected){
+    connected = enableAutoSend();
+    delay(100);
+  }*/
 }
 
 char incomingByte = 0x0;
@@ -504,7 +509,9 @@ String normalReading()
   output = output + inputPm25;
   output = output + ", \"pm10\": ";
   output = output + inputPm10;
-  output = output + ", \"sn\": \"czujnikWadowicki2137\"}";
+  output = output + ", \"sn\": \"";
+  output = output + ssid;
+  output = output + "\"}";
   Serial.print(output + " ");
   return output;
 }

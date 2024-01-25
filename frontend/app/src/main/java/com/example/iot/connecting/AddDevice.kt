@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,7 +15,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.iot.R
 import java.io.OutputStreamWriter
-import java.lang.Exception
 import java.net.Socket
 
 
@@ -30,6 +31,10 @@ class AddDevice : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_device)
+
+        val policy = ThreadPolicy.Builder().permitAll().build()
+
+        StrictMode.setThreadPolicy(policy)
 
         errorMessage = findViewById(R.id.error_message)
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
@@ -61,7 +66,7 @@ class AddDevice : AppCompatActivity() {
             var wifiSSID = editSSID.text.toString();
             var wifiPssword = editPassword.text.toString();
 
-            val message = wifiSSID + "," + wifiPssword;
+            val message = wifiSSID + "," + wifiPssword + "\n";
 
 
             var socket = Socket("192.168.4.22", 8000)

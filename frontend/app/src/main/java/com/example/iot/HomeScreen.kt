@@ -77,7 +77,7 @@ class HomeScreen : AppCompatActivity() {
     fun setUpApi(){
 
 
-        this.apiService.makeGetRequest("http://10.0.2.2:8000/api/devices_info?username="+username, object:
+        this.apiService.makeGetRequest("http://192.168.137.1:8000/api/devices_info?username="+username, object:
             Callback {
             override fun onFailure(call: Call, e: IOException) {
                 var x =123123;
