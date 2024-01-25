@@ -25,6 +25,8 @@ class HomeScreen : AppCompatActivity() {
     lateinit var apiService: ApiService
     var data: ArrayList<ReadingBasic> = ArrayList()
     lateinit var listView: ListView
+    lateinit var noDevices: TextView
+    lateinit var username: String
 
 
 
@@ -37,7 +39,8 @@ class HomeScreen : AppCompatActivity() {
 
         setContentView(R.layout.activity_home_screen)
         var banner:TextView = findViewById(R.id.welcome_banner);
-        var username = sharedPreferences.getString("username", "").toString()
+        username = sharedPreferences.getString("username", "").toString()
+        noDevices = findViewById(R.id.no_devices);
 
 
         var addDeviceButton: Button = findViewById(R.id.add_device);
@@ -74,7 +77,7 @@ class HomeScreen : AppCompatActivity() {
     fun setUpApi(){
 
 
-        this.apiService.makeGetRequest("http://10.0.2.2:8000/api/devices_info?username=adam123", object:
+        this.apiService.makeGetRequest("http://10.0.2.2:8000/api/devices_info?username="+username, object:
             Callback {
             override fun onFailure(call: Call, e: IOException) {
                 var x =123123;
@@ -103,6 +106,10 @@ class HomeScreen : AppCompatActivity() {
             listView = findViewById(R.id.customListView);
 
             listView.adapter = readingAdapter
+            listView.adapter = readingAdapter
+            if(dataList.isEmpty()){
+                noDevices.visibility = View.VISIBLE;
+            }
         })
 
 
