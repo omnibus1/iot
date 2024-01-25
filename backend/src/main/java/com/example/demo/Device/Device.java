@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "devices")
+@Table(name="devices")
 public class Device{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

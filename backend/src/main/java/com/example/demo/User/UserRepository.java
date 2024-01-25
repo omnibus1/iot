@@ -17,11 +17,6 @@ public class UserRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<User> getAll(){
-        return jdbcTemplate.query("SELECT user_id, username, password FROM [dbo].[users]",
-                BeanPropertyRowMapper.newInstance(User.class));
-    }
-
     public User getByUsername(String username){
         return jdbcTemplate.queryForObject("SELECT user_id, username, password FROM [dbo].[users] where username = ?",
                 BeanPropertyRowMapper.newInstance(User.class), username);

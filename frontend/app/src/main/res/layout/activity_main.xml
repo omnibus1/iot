@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="IOT"
+        android:textAlignment="center"
+        android:layout_marginTop="250dp"
+        android:textSize="100dp" />
+
+    <Button
+        android:id="@+id/getToLoginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="101dp"
+        android:layout_marginTop="400dp"
+        android:text="Login" />
+
+    <Button
+        android:id="@+id/goToRegisterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="400dp"
+        android:layout_toEndOf="@+id/getToLoginButton"
+        android:text="Register" />
+
+
+</RelativeLayout>
