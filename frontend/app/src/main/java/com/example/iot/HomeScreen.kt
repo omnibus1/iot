@@ -27,8 +27,7 @@ class HomeScreen : AppCompatActivity() {
     lateinit var listView: ListView
     lateinit var noDevices: TextView
     lateinit var username: String
-
-
+    private val handler = Handler()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,23 +56,33 @@ class HomeScreen : AppCompatActivity() {
             error.postDelayed(Runnable(){error.visibility = View.INVISIBLE;},5000)
         }
 
-
         apiService = ApiService()
-
-
-        runOnUiThread{this.setUpApi()}
-
-
-
+        callApi();
+        periodicRequest()
 
         banner.text = banner.text.toString() + username;
 
+
     }
 
-    fun setUpApi(){
+    fun periodicRequest(){
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                // Make your API request here
+                callApi()
+
+                // Schedule the next request after the specified interval
+                handler.postDelayed(this, 10000)
+            }
+        }, 10000)
+    }
 
 
-        this.apiService.makeGetRequest("http://192.168.137.1:8000/api/devices_info?username="+username, object:
+
+    fun callApi(){
+
+        this.apiService.makeGetRequest("https://ghhjgjgj.azurewebsites.net/api/devices_info?username="+username, object:
             Callback {
             override fun onFailure(call: Call, e: IOException) {
                 var x =123123;
@@ -85,7 +94,8 @@ class HomeScreen : AppCompatActivity() {
                 }
                 else{
                     var responseBody:String = response.body?.string() ?: ""
-                    updateView(responseBody)
+                    runOnUiThread{updateView(responseBody)}
+
                 }
 
             }
