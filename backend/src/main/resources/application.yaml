@@ -17,6 +17,11 @@ spring:
           consume-in-0:
             consumer:
               auto-complete: false
+  jms:
+    servicebus:
+      namespace: namespace2115
+      pricing-tier: Basic
+
   jpa:
     hibernate:
       ddl-auto: update
