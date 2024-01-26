@@ -44,31 +44,31 @@ class Login : AppCompatActivity() {
             val intent = Intent(this@Login, HomeScreen::class.java)
             startActivity(intent);
 
-//
-//            var body =  JSONObject();
-//            body.put("username", username);
-//            body.put("password", password);
-//
-//            apiService.makePostRequest("http://192.168.137.1:8000/users/login", body.toString(), object: Callback {
-//                override fun onFailure(call: Call, e: IOException) {
-//                    errorTag.text = "Internal Error";
-//                }
-//
-//                override fun onResponse(call: Call, response: Response) {
-//                    if (response.code>=400){
-//                        errorTag.text = "Error, could not log in"
-//                    }
-//                    else{
-//
-//                        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-//                        editor.clear().commit()
-//                        editor.putString("username", username);
-//                        editor.commit()
-//                        val intent = Intent(this@Login, HomeScreen::class.java)
-//                        startActivity(intent);
-//                    }
-//                }
-//            })
+
+            var body =  JSONObject();
+            body.put("username", username);
+            body.put("password", password);
+
+            apiService.makePostRequest("https://ghhjgjgj.azurewebsites.net/api/login", body.toString(), object: Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    errorTag.text = "Internal Error";
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    if (response.code>=400){
+                        errorTag.text = "Error, could not log in"
+                    }
+                    else{
+
+                        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                        editor.clear().commit()
+                        editor.putString("username", username);
+                        editor.commit()
+                        val intent = Intent(this@Login, HomeScreen::class.java)
+                        startActivity(intent);
+                    }
+                }
+            })
         }
 
     }

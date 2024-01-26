@@ -1,6 +1,7 @@
 package com.example.iot;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,21 @@ class ReadingAdapter extends BaseAdapter {
 
         serialNumber.setText(this.readings.get(position).getDevice_sn());
         reading.setText(this.readings.get(position).getLast_reading());
+        this.setReadingColor(reading, Double.parseDouble(this.readings.get(position).getLast_reading()));
+
         lastReadDateTime.setText(this.readings.get(position).getLast_reading_datetime().substring(0,(this.readings.get(position).getLast_reading_datetime().length()-2)));
 
         return convertView;
+    }
+    public void setReadingColor(TextView reading, Double readingVal){
+        if(readingVal<=100){
+            reading.setTextColor(Color.RED);
+        }
+        if(readingVal<=50){
+            reading.setTextColor(Color.YELLOW);
+        }
+        if(readingVal<=20){
+            reading.setTextColor(Color.GREEN);
+        }
     }
 }

@@ -19,6 +19,7 @@ import java.io.IOException
 class ChangeBackWiFi : AppCompatActivity() {
     lateinit var sharedPreferences : SharedPreferences
     lateinit var username : String
+    lateinit var sn: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
@@ -26,6 +27,7 @@ class ChangeBackWiFi : AppCompatActivity() {
         setContentView(R.layout.activity_change_back_wi_fi)
 
         username = sharedPreferences.getString("username", "").toString()
+        sn = sharedPreferences.getString("sn", "").toString()
 
 
         var changeNetwork: Button = findViewById(R.id.changeWiFi);
@@ -35,7 +37,7 @@ class ChangeBackWiFi : AppCompatActivity() {
 
         var finishAddDevice: Button = findViewById(R.id.finishAddDevice);
         finishAddDevice.setOnClickListener{
-            var deviceId = "pawel2115";
+            var deviceId = sn;
             var apiService = ApiService()
 
             var body =  JSONObject();

@@ -48,7 +48,6 @@ public class Demo1Application {
     public void receiveMessage(String message) {
         try {
             String[] values = message.split(",");
-
             StringBuilder result = new StringBuilder();
 
             for (String value : values) {
@@ -59,29 +58,15 @@ public class Demo1Application {
                 result.append((char) intValue);
             }
 
-            // Print or use the resulting string
-            System.out.println(result.toString());
-////        String str = new String(bytes, StandardCharsets.UTF_8);
-//         String[] w = message.split(",");
-//         List<Byte> b= new ArrayList<>();
-//         for(String s: w){
-//             b.add(Integer.parseInt(s));
-//         }
+
             Map<String, Object> retMap = new Gson().fromJson(
                     String.valueOf(result), new TypeToken<HashMap<String, Object>>() {}.getType()
             );
 
             Device device = deviceRepository.getDeviceBySn(retMap.get("sn").toString());
-
-
             LocalDateTime currentDateTime = LocalDateTime.now();
 
-            //reading.setDateTime(currentDateTime);
-            //reading.setReading(retMap.get("pm25").toString());
-            //reading.setDevice(device);
-            //reading.setDevice(device);
             Reading reading = new Reading(null, device, retMap.get("pm25").toString(), currentDateTime);
-
 
             readingRepository.saveReading(reading);
 

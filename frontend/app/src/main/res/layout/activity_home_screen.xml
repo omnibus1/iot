@@ -27,12 +27,12 @@
         android:text="WELCOME: "
         />
 
-
     <ListView
         android:id="@+id/customListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="75dp" />
+
 
     <Button
         android:id="@+id/add_device"
@@ -52,5 +52,6 @@
         android:textAlignment="center"
         android:text="You dont have any devices yet :/"
         android:visibility="invisible"/>
+
 
 </RelativeLayout>
