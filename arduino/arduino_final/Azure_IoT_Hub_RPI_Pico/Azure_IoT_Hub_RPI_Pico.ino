@@ -85,7 +85,6 @@ static uint32_t telemetry_send_count = 0;
 // Auxiliary functions
 
 IPAddress local_IP(192,168,4,22);
-IPAddress gateway(192,168,4,9);
 IPAddress subnet(255,255,255,0);
 WiFiServer server(8000);
 
@@ -116,8 +115,8 @@ static void connectToWiFi()
   String receivedPassword;
   if(staticConnect)
   {
-    receivedSSID = "UPC8320891";
-    receivedPassword = "mjk4cdhpQcQt";
+    receivedSSID = "";
+    receivedPassword = "";
     Serial.begin(115200);
     Serial.println();
     Serial.print("Connecting to WIFI SSID ");
@@ -434,28 +433,7 @@ static void sendTelemetry()
   digitalWrite(LED_PIN, LOW);
 }
 
-bool enableAutoSend()
-{
-  Serial.println("START");
-  while (Serial1.available())
-    Serial1.read();
 
-  char command[] = {0x68, 0x01, 0x20, 0x57};
-
-  Serial1.write(command, 4);
-
-  char receive[] = {0x0, 0x0};
- 
-    //delay(1);
-    Serial1.readBytes(receive, 2);
-    Serial.print(receive[0], HEX);
-    Serial.print(" ");
-    Serial.print(receive[1], HEX);
-    Serial.println("");
-    if(receive[0] == 0x0 && receive[1] == 0x0)
-      return false;
-    return true;
-}
 
 
 void setupSensor()

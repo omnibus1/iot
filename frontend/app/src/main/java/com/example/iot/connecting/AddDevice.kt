@@ -60,7 +60,11 @@ class AddDevice : AppCompatActivity() {
         var connectToDevice: Button = findViewById(R.id.connect_to_device);
         connectToDevice.setOnClickListener {
             val wifiSSID = getWifiSSID(this)
-//            sendDataToDevice()
+
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            editor.putString("sn", wifiSSID);
+            editor.commit()
+            sendDataToDevice()
         }
 
     }

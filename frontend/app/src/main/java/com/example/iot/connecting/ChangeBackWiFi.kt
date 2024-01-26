@@ -45,7 +45,8 @@ class ChangeBackWiFi : AppCompatActivity() {
             body.put("serial_number", deviceId)
             //body.put("password", password);
 
-            apiService.makePostRequest("http://192.168.137.1:8000/api/add_device", body.toString(),object:
+            apiService.makePostRequest("https://ghhjgjgj.azurewebsites.net/api/add_device", body.toString(),object:
+
                 Callback {
                 override fun onFailure(call: okhttp3.Call, e: IOException) {
                     var x =123123;

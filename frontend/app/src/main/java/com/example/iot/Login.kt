@@ -57,6 +57,7 @@ class Login : AppCompatActivity() {
                 override fun onResponse(call: Call, response: Response) {
                     if (response.code>=400){
                         errorTag.text = "Error, could not log in"
+                        return
                     }
                     else{
 

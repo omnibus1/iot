@@ -54,13 +54,13 @@ class ReadingAdapter extends BaseAdapter {
         return convertView;
     }
     public void setReadingColor(TextView reading, Double readingVal){
-        if(readingVal<=100){
+        if(readingVal>8){
             reading.setTextColor(Color.RED);
         }
-        if(readingVal<=50){
+        if(readingVal<=8){
             reading.setTextColor(Color.YELLOW);
         }
-        if(readingVal<=20){
+        if(readingVal<=5){
             reading.setTextColor(Color.GREEN);
         }
     }
